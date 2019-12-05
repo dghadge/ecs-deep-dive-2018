@@ -1,10 +1,11 @@
-VENDOR := linuxacademy
+VENDOR := dghadge
 IMAGE := scheduled-task
 VERSION := $(shell git rev-parse HEAD)
 BUILD_DATE := $(shell date -R)
 VCS_URL := $(shell basename `git rev-parse --show-toplevel`)
 VCS_REF := $(shell git log -1 --pretty=%h)
 NAME := $(shell basename `git rev-parse --show-toplevel`)
+ECR_REPO_PREFIX := 420279361566.dkr.ecr.us-east-1.amazonaws.com
 
 build:
 	docker build --rm -t ${VENDOR}/${IMAGE} --build-arg VERSION="${VERSION}" \
@@ -15,13 +16,13 @@ build:
 	--build-arg VENDOR="${VENDOR}" .
 
 run:
-	docker run --rm -p 8080:80 ${IMAGE}
+	docker run --rm -p 8080:80 ${VENDOR}/${IMAGE}
 
 tag:
-	docker tag ${VENDOR}/${IMAGE}:latest ${ECR_REPO}:latest
+	docker tag ${VENDOR}/${IMAGE}:latest ${ECR_REPO_PREFIX}/scheduled-task:latest
 
 push:
-	docker push ${ECR_REPO}:latest
+	docker push ${ECR_REPO_PREFIX}/scheduled-task:latest
 
 clean:
 	docker images -q -f "dangling=true" | \
