@@ -1,10 +1,11 @@
-VENDOR := linuxacademy
+VENDOR := dghadge
 IMAGE := stress-web
 VERSION := $(shell git rev-parse HEAD)
 BUILD_DATE := $(shell date -R)
 VCS_URL := $(shell basename `git rev-parse --show-toplevel`)
 VCS_REF := $(shell git log -1 --pretty=%h)
 NAME := $(shell basename `git rev-parse --show-toplevel`)
+ECR_REPO_PREFIX := 420279361566.dkr.ecr.us-east-1.amazonaws.com
 
 build:
 	docker build --rm -t ${VENDOR}/${IMAGE} --build-arg VERSION="${VERSION}" \
